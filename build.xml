@@ -26,13 +26,14 @@
 		<delete dir="${dir.bin}"></delete>
 	</target>
 	
-	<target name="compile">
+	<target name="compile" depends="prepare">
 		<javac target="1.7" source="1.7" srcdir="${dir.src}" destdir="${dir.bin}" includeantruntime="false" >
 			<classpath refid="classpath"></classpath>
 		</javac>
 	</target>
 	
-	<jar destfile = "openAPI-${openAPI.version}.jar"
-	   basedir = "${dir.bin}"
-	   includes = "*.class" />
+	<target name="build-jar">
+		<jar destfile = "openAPI-${openAPI.version}.jar" basedir = "${dir.bin}" includes = "*.class" />
+	</target>
+	
 </project>
