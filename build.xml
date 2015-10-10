@@ -33,8 +33,12 @@
 		</javac>
 	</target>
 	
-	<target name="build-jar" description="Generando Archivo jar">
-		
+	<target name="clean-jar"
+			description="Removiendo Archivo JAR de la version actual">
+			<delete dir="openAPI-${openAPI.version}.jar"></delete>
+	</target>
+	
+	<target name="build-jar" description="Generando Archivo jar" depends="clean-jar">
 		<jar destfile="openAPI-${openAPI.version}.jar" basedir="." 
 			includes="${dir.bin}/**" description="Generando Archivo JAR" />
 	</target>
