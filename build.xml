@@ -1,0 +1,33 @@
+<project name="openAPI" basedir=".">
+	<property file="build.properties" />
+	
+	<path id="classpath">
+		<fileset dir="${dir.lib}">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement location="${dir.bin}" />
+	</path>
+	
+	<target name="init"
+		description="Iniciando algunas propiedades.">
+		<echo message="Iniciando Propiedades." ></echo>
+		<property name="dir.src" value="${dir.src}"></property>
+		<property name="dir.bin" value="${dir.bin}"></property>
+	</target>
+	
+	<target name="prepare">
+		<mkdir dir="${dir.bin}" />
+		<echo message="Utilizando la version ${ant.java.version}."></echo>
+	</target>
+	
+	<target name="clean"
+		description="Removiendo los archivos compilados">
+		<delete dir="${dir.bin}"></delete>
+	</target>
+	
+	<target name="compile">
+		<javac target="1.7" source="1.7" srcdir="${dir.src}" destdir="${dir.bin}" includeantruntime="false" >
+			<classpath refid="classpath"></classpath>
+		</javac>
+	</target>
+</project>
