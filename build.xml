@@ -13,6 +13,7 @@
 		<echo message="Iniciando Propiedades." ></echo>
 		<property name="dir.src" value="${dir.src}"></property>
 		<property name="dir.bin" value="${dir.bin}"></property>
+		<property name="openAPI.version" value="${openAPI.version}"></property>
 	</target>
 	
 	<target name="prepare">
@@ -30,4 +31,8 @@
 			<classpath refid="classpath"></classpath>
 		</javac>
 	</target>
+	
+	<jar destfile = "openAPI-${openAPI.version}.jar"
+	   basedir = "${dir.bin}"
+	   includes = "*.class" />
 </project>
