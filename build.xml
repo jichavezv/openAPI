@@ -32,7 +32,8 @@
 		</javac>
 	</target>
 	
-	<target name="build-jar">
+	<target name="build-jar" description="Generando Archivo jar">
+		
 		<jar destfile = "openAPI-${openAPI.version}.jar" basedir = "${dir.bin}" includes = "*.class" />
 	</target>
 	
