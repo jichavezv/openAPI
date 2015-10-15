@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 import org.apache.log4j.Logger;
 
@@ -93,5 +95,93 @@ public class Utilerias {
 			// TODO: handle exception
 			log.warn("[Utilerias.cerrarLector] Error --> " + e);
 		}
+	}
+	
+	/**
+	 * Metodo que nos permite obtener una cadena con los campos y sus respectivos valores
+	 * @param valorTabla Tabla con sus nombres y valores 
+	 * @param valorCaracterSeparacion Caracter de separacion
+	 * @return Cadena con el nombre del Campo y su Valor
+	 * @author juch [Juan Ignacio Chavez Vela]
+	 * @since 18/Jun/2014.
+	 */
+	public static String obtenerValoresHashtableString(Hashtable<String, String> valorTabla, String valorCaracterSeparacion) {
+		StringBuilder       constructorCadena = null;
+		Enumeration<String> nombresLLaves     = null;
+		String              llave             = null;
+		String              valoresTabla      = null;
+		
+		try {
+			constructorCadena = new StringBuilder();
+			nombresLLaves     = valorTabla.keys();
+			
+			while(nombresLLaves.hasMoreElements()) {
+				llave = nombresLLaves.nextElement();
+				constructorCadena.append(llave + " = '" + valorTabla.get(llave) + "'" + valorCaracterSeparacion);
+			}
+			
+			valoresTabla = constructorCadena.toString();
+			
+			if(valoresTabla.length() > 0) {
+				valoresTabla = valoresTabla.substring(0, valoresTabla.length()-valorCaracterSeparacion.length());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			log.error("[Utilerias.obtenerValoresHashtableString] Error --> " + e);
+			
+			valoresTabla = "";
+		} finally {
+			//msjLogDebug("Utilerias", "obtenerValoresHashtableString", " Valores de la Enumeracion: |" + valoresTabla + "|");
+			
+			constructorCadena = null;
+			nombresLLaves     = null;
+			llave             = null;
+		}
+		
+		return valoresTabla;
+	}
+	
+	/**
+	 * Metodo donde obtenemos los valores de un Objeto de Numeracion de Tipo String
+	 * @param valorEnumeracion Objeto Enumeracion
+	 * @param valorCaracterSeparacion Caracter que le pondremos de separacion entre 
+	 * cada uno de los elementos de la Enumeracion
+	 * @return Cadena con los Elementos de la Enumeracion separados por el Caracter especifico
+	 * @author juch [Juan Ignacio Chavez Vela]
+	 * @since 18/Jun/2014.
+	 */
+	public static String obtenerValoresEnumeracionString(Enumeration<String> valorEnumeracion, String valorCaracterSeparacion) {
+		StringBuilder constructorCadena  = null;
+		String        nombreEnumeracion  = null;
+		String        valoresEnumeracion = null;
+		
+		try {
+			constructorCadena = new StringBuilder();
+			
+			while(valorEnumeracion.hasMoreElements()) {
+				nombreEnumeracion = valorEnumeracion.nextElement();
+				constructorCadena.append(nombreEnumeracion + valorCaracterSeparacion);
+			}
+			
+			valoresEnumeracion = constructorCadena.toString();
+			
+			if(valoresEnumeracion.length() > 0) {
+				valoresEnumeracion = valoresEnumeracion.substring(0, valoresEnumeracion.length()-valorCaracterSeparacion.length());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			log.error("[Utilerias.obtenerValoresEnumeracionString] Error --> " + e);
+			
+			valoresEnumeracion = "";
+		} finally {
+			//msjLogDebug(ORIGEN, "obtenerValoresEnumeracionString", " Valores de la Enumeracion: |" + valoresEnumeracion + "|");
+			
+			constructorCadena = null;
+			nombreEnumeracion = null;
+		}
+		
+		return valoresEnumeracion;
 	}
 }
