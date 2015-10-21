@@ -97,14 +97,6 @@ public class Utilerias {
 		}
 	}
 	
-	/**
-	 * Metodo que nos permite obtener una cadena con los campos y sus respectivos valores
-	 * @param valorTabla Tabla con sus nombres y valores 
-	 * @param valorCaracterSeparacion Caracter de separacion
-	 * @return Cadena con el nombre del Campo y su Valor
-	 * @author juch [Juan Ignacio Chavez Vela]
-	 * @since 18/Jun/2014.
-	 */
 	public static String obtenerValoresHashtableString(Hashtable<String, String> valorTabla, String valorCaracterSeparacion) {
 		StringBuilder       constructorCadena = null;
 		Enumeration<String> nombresLLaves     = null;
@@ -123,7 +115,7 @@ public class Utilerias {
 			valoresTabla = constructorCadena.toString();
 			
 			if(valoresTabla.length() > 0) {
-				valoresTabla = valoresTabla.substring(0, valoresTabla.length()-valorCaracterSeparacion.length());
+				valoresTabla = valoresTabla.substring(0, valoresTabla.length() - valorCaracterSeparacion.length());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -142,15 +134,6 @@ public class Utilerias {
 		return valoresTabla;
 	}
 	
-	/**
-	 * Metodo donde obtenemos los valores de un Objeto de Numeracion de Tipo String
-	 * @param valorEnumeracion Objeto Enumeracion
-	 * @param valorCaracterSeparacion Caracter que le pondremos de separacion entre 
-	 * cada uno de los elementos de la Enumeracion
-	 * @return Cadena con los Elementos de la Enumeracion separados por el Caracter especifico
-	 * @author juch [Juan Ignacio Chavez Vela]
-	 * @since 18/Jun/2014.
-	 */
 	public static String obtenerValoresEnumeracionString(Enumeration<String> valorEnumeracion, String valorCaracterSeparacion) {
 		StringBuilder constructorCadena  = null;
 		String        nombreEnumeracion  = null;

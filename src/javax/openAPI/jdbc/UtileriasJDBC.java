@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 public class UtileriasJDBC {
 	private static Logger log = Logger.getLogger(UtileriasJDBC.class);
 
-	public static ResultSet ejecutaQuery(PreparedStatement pstmt) {
+	public static ResultSet ejecutarQuery(PreparedStatement pstmt) {
 		ResultSet res = null;
 
 		try {
@@ -31,17 +31,17 @@ public class UtileriasJDBC {
 		return res;
 	}
 
-	public static int ejecutaUpdate(Connection cnx, String query) {
+	public static int ejecutarUpdate(Connection cnx, String query) {
 		Statement sel = null;
 		int       res = -1;
 
 		try {
-			sel = obtenStatement(cnx);
+			sel = obtenerStatement(cnx);
 			res = sel.executeUpdate(query);
 		} catch (Exception e) {
 			log.error("[Utilerias.ejecutaUpdate] Error: " + e);
 		} finally {
-			cierraStatement(sel);
+			cerrarStatement(sel);
 
 			sel = null;
 		}
@@ -49,7 +49,7 @@ public class UtileriasJDBC {
 		return res;
 	}
 
-	public static int ejecutaUpdate(PreparedStatement stmnt) {
+	public static int ejecutarUpdate(PreparedStatement stmnt) {
 		int aplico = 0;
 
 		try {
@@ -61,7 +61,7 @@ public class UtileriasJDBC {
 		return aplico;
 	}
 
-	public static String obtenValorString(String campo, ResultSet res, String _default) {		
+	public static String obtenerValorString(String campo, ResultSet res, String _default) {		
 		String    valor = "";		
 
 		try {
@@ -77,7 +77,7 @@ public class UtileriasJDBC {
 		return valor;
 	}
 
-	public static int  obtenValorEntero(String campo, ResultSet res) {		
+	public static int  obtenerValorEntero(String campo, ResultSet res) {		
 		int    valor = 0;		
 
 		try {
@@ -88,12 +88,12 @@ public class UtileriasJDBC {
 		return valor;
 	}
 
-	public static String obtenValorDateDay(String campo, ResultSet res, String _default) {		
+	public static String obtenerValorDateDay(String campo, ResultSet res, String _default) {		
 		String    valor = "";		
 
 		try {
 			valor = res.getString(campo);	
-			//log.error("Utilerias","obtenFechaActual","valor>"+valor+"<");
+			
 			if (valor != null & !valor.trim().equals("-") ) {
 				valor = valor.trim().substring(0,10);
 			} else {
@@ -105,7 +105,7 @@ public class UtileriasJDBC {
 		return valor;
 	}
 
-	public static String obtenValorDateTime(String campo, ResultSet res, String _default) {		
+	public static String obtenerValorDateTime(String campo, ResultSet res, String _default) {		
 		String    valor = "";		
 
 		try {
@@ -121,7 +121,7 @@ public class UtileriasJDBC {
 		return valor;
 	}
 
-	public static String obtenValorDateTime(int pos, ResultSet res, String _default) {		
+	public static String obtenerValorDateTime(int pos, ResultSet res, String _default) {		
 		String    valor = "";		
 
 		try {
@@ -137,7 +137,7 @@ public class UtileriasJDBC {
 		return valor;
 	}
 
-	public static Statement obtenStatement(Connection cnx) {
+	public static Statement obtenerStatement(Connection cnx) {
 		Statement stmt = null;
 		try {
 			stmt = cnx.createStatement();
@@ -148,7 +148,7 @@ public class UtileriasJDBC {
 	}
 
 
-	public static PreparedStatement obtenPreparedStatement(Connection cnx, String qry) {
+	public static PreparedStatement obtenerPreparedStatement(Connection cnx, String qry) {
 		PreparedStatement pst = null;
 		try {
 			pst = cnx.prepareStatement(qry);
@@ -159,7 +159,7 @@ public class UtileriasJDBC {
 	}
 
 
-	public static void cierraStatement(Statement stmt) {
+	public static void cerrarStatement(Statement stmt) {
 		try {
 			if (stmt != null) {
 				stmt.close();
@@ -171,7 +171,7 @@ public class UtileriasJDBC {
 		}
 	}
 
-	public static void cierraResultSet(ResultSet rs) {
+	public static void cerrarResultSet(ResultSet rs) {
 		try {
 			if (rs != null) {
 				rs.close();
@@ -183,7 +183,7 @@ public class UtileriasJDBC {
 		}
 	}
 
-	public static void cierraPreparedStatement(PreparedStatement pst) {
+	public static void cerrarPreparedStatement(PreparedStatement pst) {
 		try {
 			if (pst != null) {
 				pst.close();
@@ -195,9 +195,7 @@ public class UtileriasJDBC {
 		}
 	}
 
-
-
-	public static ResultSet ejecutaQuery(Statement sel, String query) {       
+	public static ResultSet ejecutarQuery(Statement sel, String query) {       
 		ResultSet res = null;
 
 		try {
@@ -208,13 +206,7 @@ public class UtileriasJDBC {
 		return res;
 	}
 
-	/**
-	 * Metodo para convertir un resultSet a un Lista de Mapas
-	 * @author Desarrollo Sistemas (pago)
-	 * @param rs   ResultSet
-	 * @return Lista de Mapa
-	 */
-	public static ArrayList<Map<String,String>> resultSetAMapa(ResultSet rs){
+	public static ArrayList<Map<String,String>> obtenerMapaPorResultSet(ResultSet rs){
 		ResultSetMetaData              md    = null;
 		ArrayList<Map<String,String>>  lista = new ArrayList<Map<String,String>>();
 		Map<String,String>             mapa  = null;
@@ -227,27 +219,17 @@ public class UtileriasJDBC {
 			while (rs.next()){
 				mapa =  new HashMap<String,String>();
 				for(int i=1; i<=cols; i++){
-					mapa.put(md.getColumnName(i), obtenValorString(md.getColumnName(i),rs, ""));
+					mapa.put(md.getColumnName(i), obtenerValorString(md.getColumnName(i),rs, ""));
 				}
 				lista.add(mapa);
 			}  
 		} catch (Exception e){
-			log.error("[Utilerias.resultSetAMapa] Error: " + e);
+			log.error("[Utilerias.obtenerMapaPorResultSet] Error: " + e);
 		}
 		return lista;
 	}
 
-	/**
-	 * Metodo donde obtenemos la Sentencia Insert para Ejecutarla en PISA
-	 * @param valorNombreTabla Nombre de la Tabla
-	 * @param valorBiblioteca Nombre de la Biblioteca
-	 * @param valorSeparador Caracter que se utiliza para separar de que Base de Datos sacara la Tabla
-	 * @param valorTablaDatos Tabla que como llave tiene el Nombre del Campo y su valor
-	 * @return Cadena en formato SQL de Insert
-	 * @author juch [Juan Ignacio Chavez Vela]
-	 * @since 18/Jun/2014.
-	 */
-	public static String armarSQLInsert(String valorNombreTabla, String valorBiblioteca, String valorSeparador, Hashtable<String, String> valorTablaDatos) {
+	public static String armarSQLInsert(String valorNombreTabla, Hashtable<String, String> valorTablaDatos) {
 		String              insertSQL        = null;
 		StringBuilder       constructorInsert = null;
 		Enumeration<String> nombresLlaves     = null;
@@ -255,14 +237,7 @@ public class UtileriasJDBC {
 		try {
 			constructorInsert = new StringBuilder();
 
-			//msjLogDebug("Utilerias", "armarSQLInsert", " Tabla de Datos para armar el SQL: " + valorTablaDatos);
-
 			constructorInsert.append("INSERT INTO ");
-
-			if(valorBiblioteca != null && valorSeparador != null) {
-				constructorInsert.append(valorBiblioteca);
-				constructorInsert.append(valorSeparador);
-			}
 
 			constructorInsert.append(valorNombreTabla);
 
@@ -289,32 +264,14 @@ public class UtileriasJDBC {
 		return insertSQL;
 	}
 
-	/**
-	 * Metodo que nos permite obtener una Sentencia Update
-	 * @param valorNombreTabla Nombre de la Tabla
-	 * @param valorBiblioteca Nombre de la Biblioteca
-	 * @param valorSeparador Caracter que se utiliza para separar de que Base de Datos sacara la Tabla
-	 * @param valorTablaDatos Datos de la Tabla a Modificar
-	 * @param valorTablaCondicion Datos de la Tabla que se pondran despues del WHERE
-	 * @return Cadena en formato SQL de Update
-	 * @author juch [Juan Ignacio Chavez Vela]
-	 * @since 18/Jun/2014.
-	 */
-	public static String armarSQLUpdate(String valorNombreTabla, String valorBiblioteca, String valorSeparador, Hashtable<String, String> valorTablaDatos, Hashtable<String, String> valorTablaCondicion) {
+	public static String armarSQLUpdate(String valorNombreTabla, Hashtable<String, String> valorTablaDatos, Hashtable<String, String> valorTablaCondicion) {
 		String        updateSQL         = null;
 		StringBuilder constructorUpdate = null;
 
 		try {
 			constructorUpdate = new StringBuilder();
 
-			//msjLogDebug("Utilerias", "armarSQLUpdate", " Tabla de Datos para armar el SQL: " + valorTablaDatos);
-
 			constructorUpdate.append("UPDATE ");
-
-			if(valorBiblioteca != null && valorSeparador != null) {
-				constructorUpdate.append(valorBiblioteca);
-				constructorUpdate.append(valorSeparador);
-			}
 
 			constructorUpdate.append(valorNombreTabla);
 			constructorUpdate.append(" SET ");
